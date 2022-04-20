@@ -7,5 +7,13 @@
     <title>The King of Fighters</title>
     <link rel="stylesheet" href="/static/css/base.css" />
   </head>
-  <body></body>
+  <body>
+    <div id="kof"></div>
+
+    <script type="modules">
+      import { KOF } from '/static/js/kof.js';
+
+      let kof = new KOF('kof');
+    </script>
+  </body>
 </html>
