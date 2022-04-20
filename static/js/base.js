@@ -1,11 +1,9 @@
 class KOF {
-    constructor(id){
-        this.$kof = $('#'+ id);
+  constructor(id) {
+    this.$kof = $("#" + id);
 
-        console.log(this.$kof);
-    }
+    console.log(this.$kof);
+  }
 }
 
-export {
-    KOF
-}
+export { KOF };
