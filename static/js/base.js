@@ -1,11 +1,14 @@
 import { GameMap } from "./game_map/base.js";
 import { Player } from "./player/base.js";
+import { Controller } from "./controller/base.js";
 
 class KOF {
   constructor(id) {
     this.$kof = $("#" + id);
 
     this.game_map = new GameMap(this);
+
+    this.Controller = new Controller(this.game_map.$canvas);
 
     this.players = [
       new Player(this, {
