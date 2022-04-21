@@ -1,6 +1,6 @@
 let GAME_OBJECTS = [];
 
-class GameObject {
+export class GameObject {
   constructor() {
     GAME_OBJECTS.push(this);
 
@@ -45,5 +45,3 @@ let GAME_OBJECTS_FRAME = (timestamp) => {
 };
 
 requestAnimationFrame(GAME_OBJECTS_FRAME);
-
-export { GameObject };
