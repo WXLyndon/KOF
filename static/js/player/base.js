@@ -39,6 +39,16 @@ export class Player extends GameObject {
       this.vy = 0;
       this.status = 0;
     }
+
+    if (this.x < 0) {
+      this.x = 0;
+      // this.vx = 0;
+      // this.status = 0;
+    } else if (this.x + this.width > this.root.game_map.$canvas.width()) {
+      this.x = this.root.game_map.$canvas.width() - this.width;
+      // this.vx = 0;
+      // this.status = 0;
+    }
   }
 
   update_control() {
