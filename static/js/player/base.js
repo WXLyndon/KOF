@@ -91,6 +91,7 @@ export class Player extends GameObject {
         }
         this.vy = this.speedy;
         this.status = 3;
+        this.frame_current_cnt = 0;
       } else if (d) {
         // Player is moving forward.
         this.vx = this.speedx;
