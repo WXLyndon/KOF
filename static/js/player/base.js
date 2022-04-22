@@ -30,6 +30,7 @@ export class Player extends GameObject {
     this.frame_current_cnt = 0;
 
     this.hp = 100;
+    this.$hp = this.root.$kof.find(`.kof-head-hp-${this.id} > div`); // query the hp bar
   }
 
   start() {}
@@ -151,6 +152,8 @@ export class Player extends GameObject {
     this.frame_current_cnt = 0;
 
     this.hp = this.hp - 10;
+
+    this.$hp.width((this.$hp.parent().width() * this.hp) / 100);
 
     if (this.hp <= 0) {
       this.status = 6;

@@ -20,7 +20,6 @@
 #kof > .kof-head > .kof-head-hp-0 {
   height: 40px;
   width: calc(50% - 60px);
-  background-color: lightgreen;
   margin-left: 20px;
   border: white 5px solid;
   border-right: none;
@@ -43,8 +42,20 @@
 #kof > .kof-head > .kof-head-hp-1 {
   height: 40px;
   width: calc(50% - 60px);
-  background-color: lightgreen;
   border: white 5px solid;
   border-left: none;
   box-sizing: border-box;
+}
+
+#kof > .kof-head > .kof-head-hp-0 > div {
+  background-color: lightgreen;
+  height: 100%;
+  width: 100%;
+  float: right;
+}
+
+#kof > .kof-head > .kof-head-hp-1 > div {
+  background-color: lightgreen;
+  height: 100%;
+  width: 100%;
 }
