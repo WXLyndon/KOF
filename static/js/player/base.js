@@ -122,14 +122,81 @@ export class Player extends GameObject {
     }
   }
 
+  collision_detection(r1, r2) {
+    if (Math.max(r1.x1, r2.x1) > Math.min(r1.x2, r2.x2)) {
+      return false;
+    }
+    if (Math.max(r1.y1, r2.y1) > Math.min(r1.y2, r2.y2)) {
+      return false;
+    }
+
+    return true;
+  }
+
+  is_attacked() {
+    this.status = 5;
+    this.frame_current_cnt = 0;
+  }
+
+  update_attack() {
+    if (this.status === 4 && this.frame_current_cnt === 18) {
+      let players = this.root.players;
+      if (players.length === 2) {
+        let this_player = this;
+        let other_player = players[1 - this.id];
+
+        let r1;
+        if (this.direction > 0) {
+          r1 = {
+            x1: this_player.x + 120,
+            y1: this_player.y + 40,
+            x2: this_player.x + 120 + 100,
+            y2: this_player.y + 40 + 20,
+          };
+        } else {
+          r1 = {
+            x1: this_player.x + this.width - 120 - 100,
+            y1: this_player.y + 40,
+            x2: this_player.x + this.width - 120 - 100 + 100,
+            y2: this_player.y + 40 + 20,
+          };
+        }
+
+        let r2 = {
+          x1: other_player.x,
+          y1: other_player.y,
+          x2: other_player.x + other_player.width,
+          y2: other_player.y + other_player.height,
+        };
+
+        if (this.collision_detection(r1, r2)) {
+          other_player.is_attacked();
+        }
+      }
+    }
+  }
+
   update() {
     this.update_control();
     this.update_move();
     this.update_direction();
+    this.update_attack();
     this.render();
   }
 
   render() {
+    // Draw the box to show the collision area.
+    // this.ctx.fillStyle = "blue";
+    // this.ctx.fillRect(this.x, this.y, this.width, this.height);
+
+    // if (this.direction > 0) {
+    //   this.ctx.fillStyle = "red";
+    //   this.ctx.fillRect(this.x + 120, this.y + 40, 100, 20);
+    // } else {
+    //   this.ctx.fillStyle = "red";
+    //   this.ctx.fillRect(this.x + this.width - 120 - 100, this.y + 40, 100, 20);
+    // }
+
     let status = this.status;
 
     if (status === 1 && this.direction * this.vx < 0) {
@@ -169,12 +236,13 @@ export class Player extends GameObject {
       }
     }
 
-    // When the player is in attack state
-    if (status === 4)
-      if (this.frame_current_cnt === obj.frame_rate * (obj.frame_cnt - 1)) {
-        // And the attack animation is finished
-        this.status = 0;
-      }
+    // When the player is in attack state or attacked state
+    if (status === 4 || status === 5) {
+    }
+    if (this.frame_current_cnt === obj.frame_rate * (obj.frame_cnt - 1)) {
+      // And the attack or attacked animation is finished
+      this.status = 0;
+    }
 
     this.frame_current_cnt++;
   }
