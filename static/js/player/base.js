@@ -35,9 +35,7 @@ export class Player extends GameObject {
   start() {}
 
   update_move() {
-    if (this.status === 3) {
-      this.vy += this.gravity;
-    }
+    this.vy += this.gravity;
 
     this.x += (this.vx * this.time_delta) / 1000;
     this.y += (this.vy * this.time_delta) / 1000;
@@ -45,7 +43,10 @@ export class Player extends GameObject {
     if (this.y > 450) {
       this.y = 450;
       this.vy = 0;
-      this.status = 0;
+
+      if (this.status === 3) {
+        this.status = 0;
+      }
     }
 
     if (this.x < 0) {
