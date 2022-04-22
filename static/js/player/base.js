@@ -70,8 +70,15 @@ export class Player extends GameObject {
 
     // Player is in moving or idle state.
     if (this.status === 0 || this.status === 1) {
+      // Player is attacking.
+      if (space) {
+        this.status = 4;
+        this.vx = 0;
+        this.frame_current_cnt = 0;
+      }
+
       // Player is jumping
-      if (w) {
+      else if (w) {
         // Player is jumping forward.
         if (d) {
           this.vx = this.speedx;
@@ -125,6 +132,14 @@ export class Player extends GameObject {
         image.height * obj.scale
       );
     }
+
+    // When the player is in attack state
+    if (status === 4)
+      if (this.frame_current_cnt === obj.frame_rate * (obj.frame_cnt - 1)) {
+        // And the attack animation is finished
+        this.status = 0;
+      }
+
     this.frame_current_cnt++;
   }
 }
