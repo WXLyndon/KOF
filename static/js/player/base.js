@@ -28,6 +28,8 @@ export class Player extends GameObject {
 
     this.animations = new Map();
     this.frame_current_cnt = 0;
+
+    this.hp = 100;
   }
 
   start() {}
@@ -109,6 +111,11 @@ export class Player extends GameObject {
   }
 
   update_direction() {
+    // If the player is alredy defeated, don't change direction.
+    if (this.status === 6) {
+      return;
+    }
+
     let players = this.root.players;
     if (players.length === 2) {
       let this_player = this;
@@ -134,44 +141,54 @@ export class Player extends GameObject {
   }
 
   is_attacked() {
+    // If the player is already defeated, couldn't be attacked again.
+    if (this.status === 6) {
+      return;
+    }
+
     this.status = 5;
     this.frame_current_cnt = 0;
+
+    this.hp = this.hp - 50;
+
+    if (this.hp <= 0) {
+      this.status = 6;
+      this.frame_current_cnt = 0;
+    }
   }
 
   update_attack() {
     if (this.status === 4 && this.frame_current_cnt === 18) {
       let players = this.root.players;
-      if (players.length === 2) {
-        let this_player = this;
-        let other_player = players[1 - this.id];
+      let this_player = this;
+      let other_player = players[1 - this.id];
 
-        let r1;
-        if (this.direction > 0) {
-          r1 = {
-            x1: this_player.x + 120,
-            y1: this_player.y + 40,
-            x2: this_player.x + 120 + 100,
-            y2: this_player.y + 40 + 20,
-          };
-        } else {
-          r1 = {
-            x1: this_player.x + this.width - 120 - 100,
-            y1: this_player.y + 40,
-            x2: this_player.x + this.width - 120 - 100 + 100,
-            y2: this_player.y + 40 + 20,
-          };
-        }
-
-        let r2 = {
-          x1: other_player.x,
-          y1: other_player.y,
-          x2: other_player.x + other_player.width,
-          y2: other_player.y + other_player.height,
+      let r1;
+      if (this.direction > 0) {
+        r1 = {
+          x1: this_player.x + 120,
+          y1: this_player.y + 40,
+          x2: this_player.x + 120 + 100,
+          y2: this_player.y + 40 + 20,
         };
+      } else {
+        r1 = {
+          x1: this_player.x + this.width - 120 - 100,
+          y1: this_player.y + 40,
+          x2: this_player.x + this.width - 120 - 100 + 100,
+          y2: this_player.y + 40 + 20,
+        };
+      }
 
-        if (this.collision_detection(r1, r2)) {
-          other_player.is_attacked();
-        }
+      let r2 = {
+        x1: other_player.x,
+        y1: other_player.y,
+        x2: other_player.x + other_player.width,
+        y2: other_player.y + other_player.height,
+      };
+
+      if (this.collision_detection(r1, r2)) {
+        other_player.is_attacked();
       }
     }
   }
@@ -185,18 +202,6 @@ export class Player extends GameObject {
   }
 
   render() {
-    // Draw the box to show the collision area.
-    // this.ctx.fillStyle = "blue";
-    // this.ctx.fillRect(this.x, this.y, this.width, this.height);
-
-    // if (this.direction > 0) {
-    //   this.ctx.fillStyle = "red";
-    //   this.ctx.fillRect(this.x + 120, this.y + 40, 100, 20);
-    // } else {
-    //   this.ctx.fillStyle = "red";
-    //   this.ctx.fillRect(this.x + this.width - 120 - 100, this.y + 40, 100, 20);
-    // }
-
     let status = this.status;
 
     if (status === 1 && this.direction * this.vx < 0) {
@@ -236,12 +241,17 @@ export class Player extends GameObject {
       }
     }
 
-    // When the player is in attack state or attacked state
-    if (status === 4 || status === 5) {
-    }
-    if (this.frame_current_cnt === obj.frame_rate * (obj.frame_cnt - 1)) {
-      // And the attack or attacked animation is finished
-      this.status = 0;
+    // When the player is in attack state or attacked state or defeated state.
+    if (status === 4 || status === 5 || status === 6) {
+      if (this.frame_current_cnt === obj.frame_rate * (obj.frame_cnt - 1)) {
+        if (status === 6) {
+          // If the player is defeated, the player should remain layed on the ground.
+          this.frame_current_cnt--;
+        } else {
+          // And the attack or attacked animation is finished
+          this.status = 0;
+        }
+      }
     }
 
     this.frame_current_cnt++;
