@@ -153,7 +153,12 @@ export class Player extends GameObject {
 
     this.hp = this.hp - 10;
 
-    this.$hp.width((this.$hp.parent().width() * this.hp) / 100);
+    this.$hp.animate(
+      {
+        width: `${this.hp}%`,
+      },
+      300
+    );
 
     if (this.hp <= 0) {
       this.status = 6;
