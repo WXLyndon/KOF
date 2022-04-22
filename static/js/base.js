@@ -1,5 +1,5 @@
 import { GameMap } from "./game_map/base.js";
-import { Player } from "./player/base.js";
+import { Kyo } from "./player/kyo.js";
 import { Controller } from "./controller/base.js";
 
 class KOF {
@@ -11,7 +11,7 @@ class KOF {
     this.Controller = new Controller(this.game_map.$canvas);
 
     this.players = [
-      new Player(this, {
+      new Kyo(this, {
         id: 0,
         x: 200,
         y: 0,
@@ -19,7 +19,7 @@ class KOF {
         height: 200,
         color: "blue",
       }),
-      new Player(this, {
+      new Kyo(this, {
         id: 1,
         x: 900,
         y: 0,

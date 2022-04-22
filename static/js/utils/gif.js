@@ -1,4 +1,5 @@
-// Code retrieved on Fri, 23 Jul 2011 17:51:51 +0000 from https://stackoverflow.com/questions/48234696/how-to-put-a-gif-with-canvas
+// Code retrieved on Fri, 23 Jul 2011 17:51:51 +0000 from
+// https://stackoverflow.com/questions/48234696/how-to-put-a-gif-with-canvas
 const GIF = function () {
   // **NOT** for commercial use.
   var timerID; // timer handle for set time out usage

@@ -25,12 +25,18 @@ export class Player extends GameObject {
     this.ctx = this.root.game_map.ctx;
     this.pressed_keys = this.root.Controller.pressed_keys;
     this.status = 3; // 0: idle, 1: forward, 2: backward, 3: jump, 4: attack, 5: attacked, 6: defeated
+
+    this.animations = new Map();
+    this.frame_current_cnt = 0;
   }
 
   start() {}
 
   update_move() {
-    this.vy += this.gravity;
+    if (this.status === 3) {
+      this.vy += this.gravity;
+    }
+
     this.x += (this.vx * this.time_delta) / 1000;
     this.y += (this.vy * this.time_delta) / 1000;
 
@@ -85,7 +91,7 @@ export class Player extends GameObject {
       } else if (a) {
         // Player is moving backward.
         this.vx = -this.speedx;
-        this.status = 2;
+        this.status = 1;
       } else {
         // Player is just standing.
         this.vx = 0;
@@ -101,7 +107,24 @@ export class Player extends GameObject {
   }
 
   render() {
-    this.ctx.fillStyle = this.color;
-    this.ctx.fillRect(this.x, this.y, this.width, this.height);
+    let status = this.status;
+
+    if (status === 1 && this.direction * this.vx < 0) {
+      status = 2;
+    }
+
+    let obj = this.animations.get(status);
+    if (obj && obj.loaded) {
+      let k = parseInt(this.frame_current_cnt / obj.frame_rate) % obj.frame_cnt;
+      let image = obj.gif.frames[k].image;
+      this.ctx.drawImage(
+        image,
+        this.x,
+        this.y + obj.offset_y,
+        image.width * obj.scale,
+        image.height * obj.scale
+      );
+    }
+    this.frame_current_cnt++;
   }
 }
