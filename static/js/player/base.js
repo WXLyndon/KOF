@@ -149,7 +149,7 @@ export class Player extends GameObject {
     this.status = 5;
     this.frame_current_cnt = 0;
 
-    this.hp = this.hp - 50;
+    this.hp = this.hp - 10;
 
     if (this.hp <= 0) {
       this.status = 6;
