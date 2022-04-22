@@ -49,13 +49,26 @@
 }
 
 #kof > .kof-head > .kof-head-hp-0 > div {
-  background-color: lightgreen;
+  background-color: red;
   height: 100%;
   width: 100%;
   float: right;
 }
 
 #kof > .kof-head > .kof-head-hp-1 > div {
+  background-color: red;
+  height: 100%;
+  width: 100%;
+}
+
+#kof > .kof-head > .kof-head-hp-0 > div > div {
+  background-color: lightgreen;
+  height: 100%;
+  width: 100%;
+  float: right;
+}
+
+#kof > .kof-head > .kof-head-hp-1 > div > div {
   background-color: lightgreen;
   height: 100%;
   width: 100%;

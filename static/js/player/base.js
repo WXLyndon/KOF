@@ -31,6 +31,7 @@ export class Player extends GameObject {
 
     this.hp = 100;
     this.$hp = this.root.$kof.find(`.kof-head-hp-${this.id} > div`); // query the hp bar
+    this.$hp_div = this.$hp.find("div"); // query the hp bar's div
   }
 
   start() {}
@@ -153,11 +154,16 @@ export class Player extends GameObject {
 
     this.hp = this.hp - 10;
 
+    this.$hp_div.animate(
+      { width: (this.$hp.parent().width() * this.hp) / 100 },
+      300
+    );
+
     this.$hp.animate(
       {
-        width: `${this.hp}%`,
+        width: (this.$hp.parent().width() * this.hp) / 100,
       },
-      300
+      600
     );
 
     if (this.hp <= 0) {
